@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.turbo/
+.wrangler/
+.dev.vars
+*.local
+.DS_Store
+
+# Vendored at build time by apps/api/scripts/copy-wasm.sh — never commit the 1MB binary.
+apps/api/src/quickjs.wasm

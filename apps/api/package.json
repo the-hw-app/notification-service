@@ -1,0 +1,31 @@
+{
+  "name": "@notification-service/api",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "copy-wasm": "bash ./scripts/copy-wasm.sh",
+    "dev": "pnpm run copy-wasm && wrangler dev",
+    "build": "pnpm run copy-wasm && wrangler deploy --dry-run --outdir dist",
+    "deploy": "pnpm run copy-wasm && wrangler deploy",
+    "check-types": "tsc --noEmit",
+    "db:migrate:local": "wrangler d1 migrations apply notification-service --local",
+    "db:migrate": "wrangler d1 migrations apply notification-service --remote"
+  },
+  "dependencies": {
+    "@notification-service/core": "workspace:*",
+    "@notification-service/db": "workspace:*",
+    "@notification-service/sandbox": "workspace:*",
+    "@jitl/quickjs-wasmfile-release-asyncify": "^0.32.0",
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "agents": "^0.17.3",
+    "drizzle-orm": "^0.45.0",
+    "hono": "^4.12.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260710.1",
+    "typescript": "^5.9.2",
+    "wrangler": "^4.110.0"
+  }
+}

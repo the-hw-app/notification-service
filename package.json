@@ -1,0 +1,27 @@
+{
+  "name": "notification-service",
+  "private": true,
+  "packageManager": "pnpm@10.14.0",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "check-types": "turbo run check-types",
+    "test": "turbo run test",
+    "db:generate": "pnpm --filter @notification-service/db generate",
+    "setup": "bash scripts/setup.sh",
+    "teardown": "bash scripts/teardown.sh",
+    "deploy": "pnpm --filter @notification-service/api run deploy"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "workerd"
+    ]
+  }
+}

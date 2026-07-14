@@ -1,0 +1,43 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "notification-service",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-07-01",
+  // @block65/webcrypto-web-push resolves its crypto via node:crypto.
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": {
+    "enabled": true
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "notification-service",
+      // Filled in automatically by `pnpm run setup` (after `wrangler d1 create`).
+      "database_id": "PLACEHOLDER_RUN_PNPM_SETUP",
+      "migrations_dir": "../../packages/db/migrations"
+    }
+  ],
+  "queues": {
+    "producers": [
+      {
+        "binding": "SEND_QUEUE",
+        "queue": "notification-service-sends"
+      }
+    ],
+    "consumers": [
+      {
+        "queue": "notification-service-sends",
+        // Free-plan safe: a whole batch shares one invocation's 50-subrequest
+        // budget, and each message costs ~6 (D1 reads + a provider fetch), so 6
+        // keeps a batch well under the cap even with some device fan-out. On
+        // Workers Paid (1,000+ subrequests) raise this to 25 for fewer, larger
+        // invocations (Cloudflare max: 100).
+        "max_batch_size": 6,
+        "max_batch_timeout": 10,
+        // Keep in step with MAX_ATTEMPTS in src/queue/consumer.ts.
+        "max_retries": 3,
+        "dead_letter_queue": "notification-service-sends-dlq"
+      }
+    ]
+  }
+}
