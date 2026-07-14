@@ -6,6 +6,10 @@ Register device tokens, define notifications (event triggers + conditions + a pa
 
 This guide takes you from **nothing installed** to a **deployed instance you can manage from Claude**.
 
+> **📱 Client examples:** ready-to-run todo apps that integrate with an instance —
+> Swift, Kotlin, React Native (Expo), Flutter, Capacitor + Next.js, and .NET MAUI —
+> live in **[the-hw-app/notification-service-examples](https://github.com/the-hw-app/notification-service-examples)**.
+
 ---
 
 ## Contents
